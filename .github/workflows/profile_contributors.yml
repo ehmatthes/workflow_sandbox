@@ -35,12 +35,17 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           uvx gh-profiler@latest ${{ steps.meta.outputs.login }} --concise > profiler.txt
-          echo "\n=== Concise profile ==="
+          echo
+          echo "======================= Concise profile ======================="
           cat profiler.txt
-          echo "\n======================="
-          echo "\n=== Full profile ===\n"
+          echo
+          echo "==============================================================="
+          echo
+          echo 
+          echo "======================== Full profile ========================="
           uvx gh-profiler@latest ${{ steps.meta.outputs.login }}
-          echo "\n======================="
+          echo
+          echo "==============================================================="
 
       - name: Comment on issue or PR
         env:
