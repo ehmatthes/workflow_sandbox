@@ -50,7 +50,7 @@ jobs:
             cat profiler.txt
             echo '```'
             echo
-            echo '<a href="https://github.com/<owner>/<repo>/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}">Action log</a>''
+            echo '<a href="https://github.com/<owner>/<repo>/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}">Action log</a>'
           } > body.txt
 
           jq -Rs '{body: .}' body.txt > payload.json
