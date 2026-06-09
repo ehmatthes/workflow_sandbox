@@ -49,6 +49,8 @@ jobs:
             echo '```text'
             cat profiler.txt
             echo '```'
+            echo
+            echo "Action log"
           } > body.txt
 
           jq -Rs '{body: .}' body.txt > payload.json
