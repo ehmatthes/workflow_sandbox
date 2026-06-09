@@ -34,12 +34,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Running gh-profiler for: '${{ steps.meta.outputs.login }}'"
           uvx gh-profiler@latest ${{ steps.meta.outputs.login }} --concise > profiler.txt
-          echo "=== gh-profiler --concise ==="
+          echo "\n=== Concise profile ==="
           cat profiler.txt
-          echo "=== gh-profiler=== "
+          echo "\n======================="
+          echo "\n=== Full profile ===\n"
           uvx gh-profiler@latest ${{ steps.meta.outputs.login }}
+          echo "\n======================="
 
       - name: Comment on issue or PR
         env:
