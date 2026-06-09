@@ -30,19 +30,21 @@ jobs:
             echo "number=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Run gh-profiler (Expand this to see full profile output)
+      - name: Run gh-profiler (=== Expand this to see full profile output ===)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           uvx gh-profiler@latest ${{ steps.meta.outputs.login }} --concise > profiler.txt
           echo
           echo "======================= Concise profile ======================="
+          echo
           cat profiler.txt
           echo
           echo "==============================================================="
           echo
           echo 
           echo "======================== Full profile ========================="
+          echo
           uvx gh-profiler@latest ${{ steps.meta.outputs.login }}
           echo
           echo "==============================================================="
