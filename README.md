@@ -24,4 +24,4 @@ Generate your own workflow
 
 To generate a gh-profiler workflow for your project, see the [GitHub Actions](https://github.com/ehmatthes/gh-profiler#github-actions) section of the gh-profiler documentation.
 
-You can also just copy the [concise ouput](https://github.com/ehmatthes/workflow_sandbox/blob/main/.github/workflows/profile_contributors.yml) workflow, or the [link-only](https://github.com/ehmatthes/workflow_sandbox/blob/main/.github/workflows/profile_contributors_link_only.yml) workflow.
+You can also just copy the [concise ouput](https://github.com/ehmatthes/gh-profiler/blob/main/src/gh_profiler/templates/profile_contributors.yml) workflow, or the [link-only](https://github.com/ehmatthes/gh-profiler/blob/main/src/gh_profiler/templates/profile_contributors_link_only.yml) workflow.
