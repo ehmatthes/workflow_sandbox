@@ -8,6 +8,10 @@ If you open an issue on this repo, you'll see the two kinds of comments a gh-pro
 - It can write the concise profiler output as a comment on each new PR/issue, with a link to the full profile output in the Action log. ([Example](https://github.com/ehmatthes/workflow_sandbox/issues/15))
 - It can write just the link to the Action log containing the profiler ouput. ([Example](https://github.com/ehmatthes/workflow_sandbox/issues/16))
 
+When you get to an Actions log page, you'll need to expand the job that ran gh-profiler:
+
+![Action job expanded](https://raw.githubusercontent.com/ehmatthes/workflow_sandbox/main/media/expand_action_log.png)
+
 Try it out!
 ---
 
