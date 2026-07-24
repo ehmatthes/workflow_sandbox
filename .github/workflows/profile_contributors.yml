@@ -1,22 +1,25 @@
 # Run gh-profiler against the author of each new issue and PR.
+# Delete the profile output when the issue or PR is closed.
 
 name: Profile contributors
 
 on:
   issues:
-    types: [opened]
+    types: [opened, closed]
   # This workflow never checks out or executes PR code; it only reads the
   # author login to post a comment, so pull_request_target is safe here.
   pull_request_target: # zizmor: ignore[dangerous-triggers]
-    types: [opened]
+    types: [opened, closed]
 
 permissions:
   contents: read
+  actions: write
   issues: write
   pull-requests: write
 
 jobs:
   profile-author:
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
 
     steps:
@@ -75,3 +78,46 @@ jobs:
           gh api \
             "repos/$REPOSITORY/issues/$NUMBER/comments" \
             --input payload.json
+
+  delete-profile:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine issue or PR number
+        id: meta
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if [ "$EVENT_NAME" = "issues" ]; then
+            echo "number=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+          else
+            echo "number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Delete profile comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          NUMBER: ${{ steps.meta.outputs.number }}
+        run: |
+          gh api --paginate \
+            "repos/$REPOSITORY/issues/$NUMBER/comments" \
+            --jq '
+              .[]
+              | select(.user.login == "github-actions[bot]")
+              | select(.body | startswith("<!-- gh-profiler:profile-link run-id="))
+              | [.id, (.body | capture("gh-profiler:profile-link run-id=(?<id>[0-9]+)").id)]
+              | @tsv
+            ' |
+          while IFS=$'\t' read -r comment_id run_id; do
+            echo "Deleting logs from workflow run $run_id."
+            gh api --method DELETE \
+              "repos/$REPOSITORY/actions/runs/$run_id/logs"
+
+            echo "Deleting profile comment $comment_id."
+            gh api --method DELETE \
+              "repos/$REPOSITORY/issues/comments/$comment_id"
+          done
