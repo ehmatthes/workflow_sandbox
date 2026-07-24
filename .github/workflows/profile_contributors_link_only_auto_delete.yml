@@ -5,11 +5,11 @@ name: Profile contributors
 
 on:
   issues:
-    types: [opened]
+    types: [opened, closed]
   # This workflow never checks out or executes PR code; it only reads the
   # author login to post a comment, so pull_request_target is safe here.
   pull_request_target: # zizmor: ignore[dangerous-triggers]
-    types: [opened]
+    types: [opened, closed]
 
 permissions:
   contents: read
