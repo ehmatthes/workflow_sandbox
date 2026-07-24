@@ -18,6 +18,7 @@ permissions:
 
 jobs:
   profile-author:
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
 
     steps:
