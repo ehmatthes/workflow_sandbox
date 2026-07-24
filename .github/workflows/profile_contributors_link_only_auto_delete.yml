@@ -118,4 +118,8 @@ jobs:
             echo "Deleting profile comment $comment_id."
             gh api --method DELETE \
               "repos/$REPOSITORY/issues/comments/$comment_id"
+
+            echo "Deleting logs from workflow run $run_id."
+            gh api --method DELETE \
+              "repos/$REPOSITORY/actions/runs/$run_id/logs"
           done
