@@ -64,6 +64,7 @@ jobs:
           NUMBER: ${{ steps.meta.outputs.number }}
         run: |
           {
+            echo "<!-- gh-profiler:profile-link run-id=$RUN_ID -->"
             echo "Profile summary:"
             echo
             echo '```text'
