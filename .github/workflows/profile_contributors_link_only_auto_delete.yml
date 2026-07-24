@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
   issues: write
   pull-requests: write
 
@@ -111,15 +112,15 @@ jobs:
               .[]
               | select(.user.login == "github-actions[bot]")
               | select(.body | startswith("<!-- gh-profiler:profile-link run-id="))
-              | [.id, (.body | capture("gh-profiler:run-id=(?<id>[0-9]+)").id)]
+              | [.id, (.body | capture("gh-profiler:profile-link run-id=(?<id>[0-9]+)").id)]
               | @tsv
             ' |
           while IFS=$'\t' read -r comment_id run_id; do
-            echo "Deleting profile comment $comment_id."
-            gh api --method DELETE \
-              "repos/$REPOSITORY/issues/comments/$comment_id"
-
             echo "Deleting logs from workflow run $run_id."
             gh api --method DELETE \
               "repos/$REPOSITORY/actions/runs/$run_id/logs"
+
+            echo "Deleting profile comment $comment_id."
+            gh api --method DELETE \
+              "repos/$REPOSITORY/issues/comments/$comment_id"
           done
