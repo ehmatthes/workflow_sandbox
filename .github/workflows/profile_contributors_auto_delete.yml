@@ -75,6 +75,7 @@ jobs:
             echo '```'
             echo
             echo "<a href=\"$SERVER_URL/$REPOSITORY/actions/runs/$RUN_ID/job/$CHECK_RUN_ID\">Full profile</a>"
+            echo
             echo "(This comment and the linked profile output will auto-delete when this $ISSUE_PR is closed.)"
           } > body.txt
 
